@@ -270,16 +270,16 @@ dream-journal/
 
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|---------------|
-| GET | `/api/dreams` | Get all user's dreams | Yes |
-| GET | `/api/dreams/:id` | Get single dream | Yes |
-| POST | `/api/dreams` | Create new dream | Yes |
-| PUT | `/api/dreams/:id` | Update dream | Yes |
-| DELETE | `/api/dreams/:id` | Delete dream | Yes |
-| PATCH | `/api/dreams/:id/favorite` | Toggle favorite status | Yes |
-| GET | `/api/dreams/favorites` | Get all favorite dreams | Yes |
-| GET | `/api/dreams/tags` | Get all unique tags | Yes |
-| GET | `/api/dreams/stats` | Get dream statistics | Yes |
-| GET | `/api/dreams/search` | Search dreams | Yes |
+| GET | `/api/dreams` | Get all user's dreams | Yes | //
+| GET | `/api/dreams/:id` | Get single dream | Yes | //
+| POST | `/api/dreams` | Create new dream | Yes | //
+| PUT | `/api/dreams/:id` | Update dream | Yes | //
+| DELETE | `/api/dreams/:id` | Delete dream | Yes | //
+| PATCH | `/api/dreams/:id/favorite` | Toggle favorite status | Yes | 
+| GET | `/api/dreams/favorites` | Get all favorite dreams | Yes |  //
+| GET | `/api/dreams/tags` | Get all unique tags | Yes |//
+| GET | `/api/dreams/stats` | Get dream statistics | Yes | 
+| GET | `/api/dreams/search` | Search dreams | Yes | //
 
 #### Create Dream Request Body
 ```tsxon
