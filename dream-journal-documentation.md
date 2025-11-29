@@ -235,9 +235,9 @@ dream-journal/
 
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|---------------|
-| POST | `/api/auth/register` | Create new user account | No |
-| POST | `/api/auth/login` | Login and receive JWT | No |
-| GET | `/api/auth/me` | Get current user info | Yes |
+| POST | `/api/auth/register` | Create new user account | No |//
+| POST | `/api/auth/login` | Login and receive JWT | No |//
+| GET | `/api/auth/me` | Get current user info | Yes |//
 
 #### Register Request Body
 ```tsxon

@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db";
 import dreamRoutes from "./routes/Dreams";
+import authRoutes from "./routes/Auth";
 dotenv.config();
 
 const app = express();
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 //API Routes
 
 app.use("/api",dreamRoutes)
+app.use("/api",authRoutes)
 // Basic route
 app.get("/", (req, res) => {
   res.send("Server is running");
