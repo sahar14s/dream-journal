@@ -45,10 +45,22 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(401).json({ message: "Invalid password" });
     }
     const token = jwt.sign(
-      { userId: user._id, email: user.email },
+      { id: user._id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "1d" }
     );
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: false, // בפיתוח: false, בפרודקשן: true (HTTPS)
+        sameSite: "lax", // בפיתוח אפשר lax, בפרודקשן strict
+        maxAge: 24 * 60 * 60 * 1000,
+      })
+      .json({
+        message: "Login successful",
+        // אפשר להחזיר גם מידע על המשתמש:
+        user: { id: user._id, email: user.email, name: user.name },
+      });
     console.log("login success");
     res.status(200).json({ token });
   } catch (error) {

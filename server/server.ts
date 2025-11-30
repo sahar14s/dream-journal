@@ -5,9 +5,13 @@ import dreamRoutes from "./routes/Dreams";
 import authRoutes from "./routes/Auth";
 dotenv.config();
 import cors from "cors";
+import cookieParser from "cookie-parser";
+
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+app.use(express.json());
+app.use(cookieParser());
 
 connectDB().then(() => {
   console.log("🚀 Connected to MongoDB, starting server...");
@@ -20,6 +24,7 @@ app.use(cors({
   origin: "http://localhost:5173", // Adjust this to your client's origin
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 }));
 app.use(express.json());
 app.use((req, res, next) => {

@@ -5,6 +5,19 @@
   //   min-height: 90vh;
   position: relative;
   z-index: 1;
+  h3 {
+    position: fixed;
+    top: 2%;
+    transform: translateX(-50%);
+    width: 100%;
+    color: rgba(162, 181, 192, 0.2);
+    font-size: 4rem;
+    letter-spacing: 2rem; // רווחים בין אותיות
+    word-spacing: 0.5rem; // רווחים בין מילים
+    font-weight: 500;
+    margin: auto;
+    padding: 10px;
+  }
   &__buttons {
     // border: 1px solid rgba(255, 255, 255, 0.3);
     position: fixed;
