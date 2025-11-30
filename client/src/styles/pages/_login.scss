@@ -1,10 +1,121 @@
 .login-page {
   display: flex;
   align-items: center;
-  justify-content: center;
-//   min-height: 90vh;
+  // justify-content: center;
+  //   min-height: 90vh;
   position: relative;
   z-index: 1;
+  &__buttons {
+    // border: 1px solid rgba(255, 255, 255, 0.3);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    justify-content: space-between;
+    // background: rgba(0, 0, 0, 0.3);
+    // backdrop-filter: blur(10px);
+    display: flex;
+    p {
+      margin: 0;
+    }
+    Button {
+      margin: 1.5rem;
+      position: relative;
+      padding: 0.5rem 1.3rem;
+      // margin-top: -140px; // מרים את הכפתור קצת למעלה
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 500;
+      font-size: 1.5rem;
+      color: #e6f3ff;
+      background: linear-gradient(
+        135deg,
+        rgba(0, 123, 255, 0.2),
+        rgba(0, 198, 255, 0.4),
+        rgba(0, 78, 180, 0.7)
+      );
+      // box-shadow: 0 12px 35px rgba(0, 50, 120, 0.6);
+      z-index: 2;
+      overflow: hidden;
+
+      // מסגרת מסתובבת
+      &::before {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        border-radius: inherit;
+        background: conic-gradient(
+          from 0deg,
+          #00b4ff,
+          #0077ff,
+          #4f9dff,
+          #00e0ff,
+          #00b4ff
+        );
+
+        opacity: 0.5;
+        z-index: -1;
+        animation: border-spin-reverse 0.3s ease-out forwards;
+      }
+
+      // רקע פנימי כהה יותר כדי לתת תחושת "זכוכית"
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        border-radius: inherit;
+        // background: linear-gradient(
+        //   145deg,
+        //   rgba(84, 110, 162, 0.9),
+        //   rgba(5, 33, 68, 0.9)
+        // );
+        background-color: black;
+        // opacity: 0.3;
+        // backdrop-filter: blur(3px);
+        z-index: -1;
+      }
+
+      &:hover {
+        color: #fdfdfd;
+        // transform: translateY(-3px);
+        // box-shadow: 0 18px 45px rgba(0, 40, 100, 0.9);
+      }
+
+      &:hover::before {
+        animation: border-spin 0.5s ease-out forwards;
+        background: conic-gradient(
+          from 0deg,
+          #66d1ff,
+          #66a8ff,
+          #8bc8ff,
+          #66ecff,
+          #66d1ff
+        );
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+@keyframes border-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes border-spin-reverse {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
 }
 
 /* רקע וידאו מלא למסך */
@@ -32,12 +143,18 @@
   transform: translate(-50%, -50%);
   width: 400px;
   background-color: rgba(255, 255, 255, 0.1);
-  border: 2px solid #000000;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  // box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   padding: 1.5rem;
-  border-radius: 8px;
+  border-radius: 20px;
   outline: none;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  gap: 10px;
+  // color: white;
 }
 
 /* הרקע מאחורי המודל */

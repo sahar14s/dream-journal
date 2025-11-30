@@ -4,6 +4,7 @@ import connectDB from "./config/db";
 import dreamRoutes from "./routes/Dreams";
 import authRoutes from "./routes/Auth";
 dotenv.config();
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -15,6 +16,11 @@ connectDB().then(() => {
 });
 
 // Middleware
+app.use(cors({
+  origin: "http://localhost:5173", // Adjust this to your client's origin
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use(express.json());
 app.use((req, res, next) => {
   console.log("➡", req.method, req.url);
