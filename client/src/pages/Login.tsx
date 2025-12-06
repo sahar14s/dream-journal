@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/pages/_login.scss";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -7,9 +7,12 @@ import Modal from "@mui/material/Modal";
 import { IconButton, TextField } from "@mui/material";
 import BackGif from "../assets/background login video.mp4";
 import axios from "axios";
-import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
-import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
+import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
+import PersonAddAlt1OutlinedIcon from "@mui/icons-material/PersonAddAlt1Outlined";
+import { useNavigate } from "react-router-dom";
+import Helmet from "react-helmet";
 const Login = () => {
+  const navigate = useNavigate();
   const [openLogin, setOpenLogin] = useState(false);
   const handleOpenLogin = () => setOpenLogin(true);
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -40,10 +43,14 @@ const Login = () => {
     setLoginEmailErr(false);
     setLoginPasswordErr(false);
   };
-  async function handleLogin() {
+  const handleLogin = async () => {
     if (!loginEmail || !loginPassword) {
       setLoginEmailErr(!loginEmail);
       setLoginPasswordErr(!loginPassword);
+      return; // לעצור אם חסר שדה
+    } else {
+      setLoginEmailErr(false);
+      setLoginPasswordErr(false);
     }
     try {
       const response = await axios.post(
@@ -57,16 +64,22 @@ const Login = () => {
       setLoginEmail("");
       setLoginPassword("");
       console.log("Login successful:", response.data);
+      navigate("/app");
     } catch (error) {
       console.error("Login failed:", error);
     }
-  }
+  };
+
   async function handleSignUp() {
     if (!signUpName || !signUpEmail || !signUpPassword) {
       setSignUpEmailErr(!signUpEmail);
       setSignUpNameErr(!signUpName);
       setSignUpPasswordErr(!signUpPassword);
       return;
+    } else {
+      setSignUpEmailErr(false);
+      setSignUpNameErr(false);
+      setSignUpPasswordErr(false);
     }
     try {
       const response = await axios.post(
@@ -88,6 +101,9 @@ const Login = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Dream Journal - Login</title>
+      </Helmet>
       <div className="login-video-container">
         <video
           autoPlay
@@ -123,12 +139,12 @@ const Login = () => {
             BackdropProps={{ className: "login-backdrop" }}
           >
             <Box className="login-modal">
-              <Typography id="login-modal-title" variant="h6" component="h2">
-                <h1>Login</h1>
+              <Typography id="login-modal-title" variant="h4" component="h1">
+                Login
               </Typography>
               <TextField
                 inputProps={{ sx: { color: "white" } }}
-                id="outlined-basic"
+                id="login-email"
                 label="Email"
                 variant="outlined"
                 value={loginEmail}
@@ -138,7 +154,7 @@ const Login = () => {
               ></TextField>
               <TextField
                 inputProps={{ sx: { color: "white" } }}
-                id="outlined-basic"
+                id="login-password"
                 label="Password"
                 variant="outlined"
                 type="password"
@@ -148,7 +164,7 @@ const Login = () => {
                 error={loginPasswordErr}
               ></TextField>
               <IconButton onClick={handleLogin}>
-                <VpnKeyOutlinedIcon fontSize="large"/>
+                <VpnKeyOutlinedIcon fontSize="large" />
               </IconButton>
             </Box>
           </Modal>
@@ -158,17 +174,17 @@ const Login = () => {
           <Modal
             open={openSignUp}
             onClose={handleCloseSignUp}
-            aria-labelledby="login-modal-title"
-            aria-describedby="login-modal-description"
+            aria-labelledby="signup-modal-title"
+            aria-describedby="signup-modal-description"
             BackdropProps={{ className: "login-backdrop" }}
           >
             <Box className="login-modal">
-              <Typography id="login-modal-title" variant="h6" component="h2">
-                <h1>Sign Up</h1>
+              <Typography id="signup-modal-title" variant="h4" component="h1">
+                Sign Up
               </Typography>
               <TextField
                 inputProps={{ sx: { color: "white" } }}
-                id="outlined-basic"
+                id="signup-name"
                 label="Name"
                 variant="outlined"
                 value={signUpName}
@@ -178,7 +194,7 @@ const Login = () => {
               ></TextField>
               <TextField
                 inputProps={{ sx: { color: "white" } }}
-                id="outlined-basic"
+                id="signup-email"
                 label="Email"
                 variant="outlined"
                 value={signUpEmail}
@@ -188,7 +204,7 @@ const Login = () => {
               ></TextField>
               <TextField
                 inputProps={{ sx: { color: "white" } }}
-                id="outlined-basic"
+                id="signup-password"
                 label="Password"
                 variant="outlined"
                 type="password"

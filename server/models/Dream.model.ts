@@ -21,16 +21,7 @@ const dreamSchema = new Schema({
   clarity: { type: Number, require: true, min: 1, max: 5 },
   mood: {
     type: String,
-    require: true,
-    enum: [
-      "Happy",
-      "Sad",
-      "Angry",
-      "Fearful",
-      "Confused",
-      "Excited",
-      "Neutral",
-    ],
+    require: true
   },
   tags: { type: String, require: false, maxlength: 200 },
   isFavorite: { type: Boolean, default: false },

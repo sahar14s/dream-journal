@@ -105,3 +105,11 @@ export const getAllFavorite = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error Fetching Favorite Dreams", error });
   }
 };
+export const getAllMoods = async (req: Request, res: Response) => {
+  try {
+    const mood = await DreamModel.find({});
+    res.status(200).json(mood);
+  } catch (error) {
+    res.status(500).json({ message: "Error Fetching Dreams", error });
+  }
+};
