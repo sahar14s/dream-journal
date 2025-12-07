@@ -6,6 +6,7 @@ export const getAllDreams = async (req: Request, res: Response) => {
   try {
     const dream = await DreamModel.find({});
     res.status(200).json(dream);
+    console.log("User from token:", (req as any).user);
   } catch (error) {
     res.status(500).json({ message: "Error Fetching Dreams", error });
   }
@@ -13,7 +14,11 @@ export const getAllDreams = async (req: Request, res: Response) => {
 
 export const postNewDream = async (req: Request, res: Response) => {
   try {
-    const newDream = new DreamModel(req.body);
+    const userId = (req as any).user.id;
+    const newDream = new DreamModel({
+      ...req.body,
+      userId, // מוסיפים אוטומטית את ה־_id
+    });
     await newDream.save();
     res.status(201).json(newDream);
   } catch (error) {
@@ -94,7 +99,7 @@ export const getUniqueTags = async (req: Request, res: Response) => {
 };
 
 export const getAllFavorite = async (req: Request, res: Response) => {
-//   const { isFavorite } = req.params;
+  //   const { isFavorite } = req.params;
   try {
     const dream = await DreamModel.find({
       isFavorite: true,

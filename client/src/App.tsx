@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar.tsx";
 import Footer from "./components/Footer.tsx";
 import AddDream from "./pages/AddDream.tsx";
 import Statistics from "./pages/Statistics.tsx";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const location = useLocation();
@@ -16,36 +17,40 @@ const App = () => {
     <>
       {location.pathname !== "/login" && <Navbar />}
       {location.pathname !== "/login" && <Footer />}
+      <Toaster position="top-center" reverseOrder={false} />{" "}
+      <div
+        style={{ paddingTop: location.pathname !== "/login" ? "60px" : "0" ,paddingBottom: location.pathname !== "/login" ? "70px" : "0"
+        }}
+      >
+        <Routes>
+          {/* עמוד ההתחברות היחיד שלא מוגן */}
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
 
-      <Routes>
-        {/* עמוד ההתחברות היחיד שלא מוגן */}
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-
-        {/* כל שאר הנתיבים במערכת מוגנים ודורשים token */}
-        <Route
-          path="*"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/home"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        {/* <Route
+          {/* כל שאר הנתיבים במערכת מוגנים ודורשים token */}
+          <Route
+            path="*"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          {/* <Route
           path="/add"
           element={
             <ProtectedRoute>
@@ -53,15 +58,16 @@ const App = () => {
             </ProtectedRoute>
           }
         /> */}
-        <Route
-          path="/statistics"
-          element={
-            <ProtectedRoute>
-              <Statistics />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+          <Route
+            path="/statistics"
+            element={
+              <ProtectedRoute>
+                <Statistics />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </div>
     </>
   );
 };

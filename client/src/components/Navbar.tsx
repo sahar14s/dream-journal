@@ -57,7 +57,7 @@ const Navbar = () => {
     console.log(`Navigate to ${value}`);
   };
   return (
-    <AppBar position="fixed" sx={{ top: 0 }}>
+    <AppBar position="fixed" sx={{ top: 0, height: "60px" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AirlineSeatIndividualSuiteOutlinedIcon fontSize="large" />

@@ -14,7 +14,7 @@ const Footer = () => {
     <>
       <AppBar
         position="fixed"
-        sx={{ bottom: 0, height: "60px", top: "auto", left: 0 }}
+        sx={{ bottom: 0, height: "60px", top: "auto", left: 0}}
       >
         <Container maxWidth="xl">
           <IconButton

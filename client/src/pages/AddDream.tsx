@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/pages/_addDream.module.scss";
 import { IconButton, TextField } from "@mui/material";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import Autocomplete from "@mui/material/Autocomplete";
 import BackupOutlinedIcon from "@mui/icons-material/BackupOutlined";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 type AddDreamProps = {
   onClose: () => void;
+  onDreamAdded: () => void;
 };
 type MoodFromServer = {
   _id: string;
@@ -16,15 +20,43 @@ type MoodFromServer = {
 const AddDream: React.FC<AddDreamProps> = ({ onClose }) => {
   const DateNow = new window.Date();
   const ClarityOptions = [1, 2, 3, 4, 5];
+  const [moods, setMoods] = useState<string[]>([]);
+  const [title, setTitle] = useState("");
+  const [clarity, setClarity] = useState<number | null>(null);
+  const [mood, setMood] = useState<String | null>(null);
+  const [content, setContent] = useState("");
   useEffect(() => {
     document.title = "Add Dream | TYD";
     getAllMoods();
   }, []);
-  const [moods, setMoods] = useState<string[]>([]);
-
-  // const handleSubmit = async () => {
-
-  // }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/dreams",
+        {
+          title: title,
+          content: content,
+          date: DateNow,
+          clarity: clarity,
+          mood: mood,
+        },
+        { withCredentials: true }
+      );
+      onDreamAdded();
+      onClose();
+      setTitle("");
+      setClarity(null);
+      setMood(null);
+      setContent("");
+      // handleDreams();
+      toast.success("Dream added successfully!");
+      console.log("Async/Await POST Response:", response.data);
+    } catch (error) {
+      console.error("Async/Await Error:", error);
+      toast.error("Failed to add dream. Please try again.");
+    }
+  };
   const getAllMoods = async () => {
     try {
       const response = await fetch("http://localhost:4000/api/dreams/mood", {
@@ -41,7 +73,6 @@ const AddDream: React.FC<AddDreamProps> = ({ onClose }) => {
 
       const data: MoodFromServer[] = await response.json();
       console.log("Moods fetched successfully:", data);
-
       // לוקחים רק את המחרוזות של ה-mood
       // ואם אתה רוצה גם בלי כפילויות:
       const uniqueMoods = Array.from(new Set(data.map((item) => item.mood)));
@@ -58,12 +89,15 @@ const AddDream: React.FC<AddDreamProps> = ({ onClose }) => {
           <h2>Add Your Dream Here</h2>
           <IconButton onClick={onClose}>
             {" "}
-            <ExitToAppOutlinedIcon fontSize="large" sx={{ color: "#b4d3deff" }} />
+            <CloseOutlinedIcon fontSize="large" sx={{ color: "#b4d3deff" }} />
           </IconButton>
         </div>
         {/* <div className={styles.addDreamContainer__form}> */}
-        <form>
+        <form onSubmit={handleSubmit}>
           <TextField
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+            type="text"
             required
             label="Title"
             variant="outlined"
@@ -76,6 +110,10 @@ const AddDream: React.FC<AddDreamProps> = ({ onClose }) => {
             }}
           />
           <Autocomplete
+            onChange={(event, newValue) => {
+              setClarity(newValue);
+            }}
+            value={clarity}
             options={ClarityOptions}
             sx={{ width: 300, marginTop: 2 }}
             renderInput={(params) => (
@@ -95,6 +133,9 @@ const AddDream: React.FC<AddDreamProps> = ({ onClose }) => {
           />
 
           <Autocomplete
+            onChange={(event, value) => {
+              setMood(value);
+            }}
             options={moods}
             sx={{
               width: 300,
@@ -129,6 +170,9 @@ const AddDream: React.FC<AddDreamProps> = ({ onClose }) => {
             }}
           />
           <TextField
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
             required
             label="Content"
             variant="outlined"
